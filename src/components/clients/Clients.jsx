@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 //firebase redux
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import { firestoreConnect } from 'react-redux-firebase'
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 //bootstrap
 import { Row, Col, Table, Button } from "reactstrap";
@@ -15,27 +15,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 //COMPONENTS
-import Spinner from '../layout/Spinner';
+import Spinner from "../layout/Spinner";
 
 export class Clients extends Component {
   state = {
-    totalOwed: null,
-  }
+    totalOwed: null
+  };
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { clients } = nextProps;
 
-    if(clients) {
-      const total = clients.reduce((total, client) => (
-        total + parseFloat(client.balance.toString())
-      ), 0)
+    if (clients) {
+      const total = clients.reduce(
+        (total, client) => total + parseFloat(client.balance.toString()),
+        0
+      );
 
-      return { totalOwed: total }
+      return { totalOwed: total };
     }
 
     return null;
   }
-  
 
   render() {
     const { clients } = this.props;
@@ -99,13 +99,13 @@ export class Clients extends Component {
   }
 }
 
-Clients.PropTypes = {
+Clients.propTypes = {
   firestore: PropTypes.object.isRequired,
   clients: PropTypes.array
-}
+};
 
 export default compose(
-  firestoreConnect([{collection: 'clients'}]),
+  firestoreConnect([{ collection: "clients" }]),
   connect((state, props) => ({
     clients: state.firestore.ordered.clients
   }))
